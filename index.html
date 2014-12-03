@@ -125,7 +125,7 @@ O código de um repositório se parece com uma coleção de objetos do domínio 
 </h3>
 
 <p>Está é a classe onde guardará os meus critérios de consulta
-`<code>public class Criterios {</code>
+<code>public class Criterios {</code>
     <code>private String nome;</code>
     <code>private String sobrenome;</code></p>
 
@@ -146,10 +146,12 @@ O código de um repositório se parece com uma coleção de objetos do domínio 
 `}`
 </code></pre>
 
-<p><code>}</code><code>
-Aqui é o meu repositorio
-</code>public class Repositorio {<code>
-</code>ArrayList elementos = new ArrayList&lt;&gt;();`</p>
+<p><code>}</code></p>
+
+<p>Aqui é o meu repositorio</p>
+
+<p><code>public class Repositorio {</code>
+    <code>ArrayList&lt;Criterios&gt; elementos = new ArrayList&lt;&gt;();</code></p>
 
 <pre><code>`public Repositorio() {`
     `//Adição de dados para o repositorio`
@@ -195,8 +197,9 @@ Aqui é o meu repositorio
 
 <p><code>}</code></p>
 
-<p>Aqui no main é onde acontece a chamada das consultas
-<code>public static void main(String[] args) {</code></p>
+<p>Aqui no main é onde acontece a chamada das consultas</p>
+
+<p><code>public static void main(String[] args) {</code></p>
 
 <pre><code>    `Repositorio meuRepositorio = new Repositorio();`
     `Criterios meusCriterios1 = new Criterios();`
