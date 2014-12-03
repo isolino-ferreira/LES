@@ -124,6 +124,91 @@ O código de um repositório se parece com uma coleção de objetos do domínio 
 <a id="exemplo-2" class="anchor" href="#exemplo-2" aria-hidden="true"><span class="octicon octicon-link"></span></a><strong>Exemplo</strong>
 </h3>
 
+<p>Está é a classe onde guardará os meus critérios de consulta
+`<code>public class Criterios {</code>
+    <code>private String nome;</code>
+    <code>private String sobrenome;</code></p>
+
+<pre><code>`public String getNome() {`
+    `return nome;`
+`}`
+
+`public void setNome(String nome) {`
+    `this.nome = nome;`
+`}`
+
+`public String getSobrenome() {`
+    `return sobrenome;`
+`}`
+
+`public void setSobrenome(String sobrenome) {`
+    `this.sobrenome = sobrenome;`
+`}`
+</code></pre>
+
+<p><code>}</code><code>
+Aqui é o meu repositorio
+</code>public class Repositorio {<code>
+</code>ArrayList elementos = new ArrayList&lt;&gt;();`</p>
+
+<pre><code>`public Repositorio() {`
+    `//Adição de dados para o repositorio`
+    `novo = new Criterios();`
+    `novo.setNome("Nome");`
+    `novo.setSobrenome("Sobrenome");`
+    `this.elementos.add(novo);`
+  `}`
+
+
+`public void buscaNome(Criterios criterios){`
+    `ArrayList&lt;Criterios&gt; retorno = new ArrayList&lt;&gt;();`
+    `for (Criterios lista : elementos) {`
+        `if(lista.getNome().equals(criterios.getNome())){`
+            `retorno.add(lista);`
+        `}`
+    `}`
+    `System.out.println("**************IMPRIME NOME************");`
+    `System.out.println("**************BUSCANDO POR Nome************");`
+   `for (Criterios imprime : retorno) {`
+
+        `System.out.println("Nome: "+ imprime.getNome());`
+        `System.out.println("Sobrenome: "+ imprime.getSobrenome());`
+    `}`
+`}`
+
+`public void buscaSobrenome(Criterios criterios){`
+    `ArrayList&lt;Criterios&gt; retorno = new ArrayList&lt;&gt;();`
+    `for (Criterios lista : elementos) {`
+        `if(lista.getSobrenome().equals(criterios.getSobrenome())){`
+            `retorno.add(lista);`
+        `}`
+    `}`
+    `System.out.println("**************IMPRIME SOBRENOME************");`
+    `System.out.println("**************BUSCANDO POR Sobrenome************");`
+    `for (Criterios imprime : retorno){`
+        `System.out.println("Nome: "+ imprime.getNome());`
+        `System.out.println("Sobrenome: "+ imprime.getSobrenome());`
+    `}`
+
+`}`
+</code></pre>
+
+<p><code>}</code></p>
+
+<p>Aqui no main é onde acontece a chamada das consultas
+<code>public static void main(String[] args) {</code></p>
+
+<pre><code>    `Repositorio meuRepositorio = new Repositorio();`
+    `Criterios meusCriterios1 = new Criterios();`
+    `meusCriterios1.setNome("Nome");`
+    `meuRepositorio.buscaNome(meusCriterios1);`
+
+    `Criterios meusCriterios2 = new Criterios();`
+    `meusCriterios2.setSobrenome("Sobrenome");`
+    `meuRepositorio.buscaSobrenome(meusCriterios2);`
+`}`
+</code></pre>
+
 <hr>
         </section>
 
