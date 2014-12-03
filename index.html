@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <title>Les by victorlbernardes</title>
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1>Les</h1>
+        <h2></h2>
+        <a href="https://github.com/victorlbernardes/LES" class="button"><small>View project on</small> GitHub</a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <h1>
+<a id="patterns-of-enterprise-application-architecture-martin-fowler" class="anchor" href="#patterns-of-enterprise-application-architecture-martin-fowler" aria-hidden="true"><span class="octicon octicon-link"></span></a><strong>"Patterns of Enterprise Application Architecture" Martin Fowler</strong>
+</h1>
+
+<h1>
+<a id="chapter-13-objectrelational-metadata-mapping-patterns" class="anchor" href="#chapter-13-objectrelational-metadata-mapping-patterns" aria-hidden="true"><span class="octicon octicon-link"></span></a><strong>Chapter 13: ObjectRelational Metadata Mapping Patterns</strong>
+</h1>
+
+<hr>
+
+<h2>
+<a id="metadata-mapping-mapeamento-de-metadados" class="anchor" href="#metadata-mapping-mapeamento-de-metadados" aria-hidden="true"><span class="octicon octicon-link"></span></a><strong>MetaData Mapping (Mapeamento de Metadados)</strong>
+</h2>
+
+<h3>
+<a id="como-funciona" class="anchor" href="#como-funciona" aria-hidden="true"><span class="octicon octicon-link"></span></a><strong>Como Funciona</strong>
+</h3>
+
+<p>Códigos que lidam com mapeamento objeto-relacional descrevem como os campos no banco de dados se relacionam com os objetos em memória. Esse código tende a ser repetitivo e tedioso para um programador. Com o mapeamento em metadados permite-se que os desenvolvedores defina os mapeamentos em forma tabular.
+Maior decisão a ser tomada, é como as informações se expressão em em execução:</p>
+
+<p>Geração de código: Escreve-se um programa onde as entradas são os metadados e a saída é o código fonte das classes. Essas classes são inteiramente geradas durante o processo, importante que as classes estejam integradas com seu build e essas classes nunca devem ser editadas. É uma abordagem menos dinâmica, já que a alteração requer recompilação.</p>
+
+<p>Programa reflexivo: Quando um método é solicitado um determinado objeto que ao executar esse método passa o parâmetro apropriado. Tratando os dados passados, o programa reflexivo pode ler os nomes de campos e métodos e utilizar isso para gerar o mapeamento. O autor desaconselha a reflexão porque ele é lenta, mas principalmente pois gera códigos difícil de debugar . Nessa abordagem alterando ao arquivo de mapeamento as classes usarão os novos metadados, podendo ser feito até em tempo de execução.</p>
+
+<p>A velocidade depende do ambiente onde estará sendo usada.
+Ambas as abordagens podem ser complicadas para depurar vai depender do quão habituados estão os desenvolvedores com cada tipo de código.
+Alteração nos mapeamentos deveriam ser bastante raras já que implicam em alterações no banco de dados ou no código.</p>
+
+<p>Na maioria dos casos se mantêm os metadados em uma arquivo XML separado, pois esse formato fornece uma estrutura hierárquica. Em alguns casos mais simples pode-se criar a representação diretamente no código fonte.</p>
+
+<p>Um dos desafios dos metados é que existem casos onde terá que ser adicionado uma grande complexidade de metadados, uma alternativa útil é sobrescrever o código genérico</p>
+
+<h3>
+<a id="quando-usar" class="anchor" href="#quando-usar" aria-hidden="true"><span class="octicon octicon-link"></span></a><strong>Quando usar</strong>
+</h3>
+
+<p>Esse padrão reduz muito a quantidade de trabalho para tratar o mapeamento em um banco de dados, mas o trabalho de configuração é requerido para preparar o framework.
+O mapeamento em metadados pode interferir na refatoração,  mas por outro lado pode tornar a refatoração no banco de dados mais fácil, já que os metados representam uma declaração na interface.</p>
+
+<h3>
+<a id="exemplo" class="anchor" href="#exemplo" aria-hidden="true"><span class="octicon octicon-link"></span></a><strong>Exemplo</strong>
+</h3>
+
+<hr>
+
+<h2>
+<a id="query-object-objeto-de-pesquisa" class="anchor" href="#query-object-objeto-de-pesquisa" aria-hidden="true"><span class="octicon octicon-link"></span></a><strong>Query Object (Objeto de Pesquisa)</strong>
+</h2>
+
+<h3>
+<a id="como-funciona-1" class="anchor" href="#como-funciona-1" aria-hidden="true"><span class="octicon octicon-link"></span></a><strong>Como funciona</strong>
+</h3>
+
+<p>Um objeto de pesquisa é um interpretador, pode-se criar a consulta fazendo referência a classes e a campos em vez de tabelas e colunas.
+É uma aplicação do padrçao Interpretador desinado a representar uma consulta SQL. Suas principais tarefas são permitir ao cliente formular consultas e transformar estruturas em objetos na string SQL.
+Uma caracteristica comum do objeto de pesquisa é que ele pode representar consultas na linguagem dos objetos na memória em vez da linguagem do esquema do banco de dados(usar nomes de objetos e campos em vez de usar nomes de tabelas e colunas). Para efetuar essa mudança o objeto de pesquisa precisa saber como está a estrutura do banco de dados, essa é uma habilidade que precisa de do Mapeamento de Metadados.
+Um uso do Objeto de pesquisa é para eliminar pesquisas redundantes sobre um banco. Se a consulta já foi vista basta consultar os objetos do Mapa de identidade, evitando assim uma ida ao banco de dados, outra abordagem é para detectar consultas que são casos particulares de outras.
+Uma variação consistem em permitir que uma consulta seja especificada por um exemplo de objeto de domínio. Assim poderia ter um objeto com apenas um campo preenchido, o restante seria nulo.</p>
+
+<h3>
+<a id="quando-usar-1" class="anchor" href="#quando-usar-1" aria-hidden="true"><span class="octicon octicon-link"></span></a><strong>Quando usar</strong>
+</h3>
+
+<p>É um padrão bastante sofisticado para se construir, portanto a maioria dos projetos não  usa.
+Vantagens desse padrão: Manter esquemas de banco de dados encapsulados, suportar múltiplos banco de dados, otimizar consultas e suportar múltiplos esquemas.</p>
+
+<h3>
+<a id="exemplo-1" class="anchor" href="#exemplo-1" aria-hidden="true"><span class="octicon octicon-link"></span></a><strong>Exemplo</strong>
+</h3>
+
+<hr>
+
+<h2>
+<a id="repository-repositório" class="anchor" href="#repository-reposit%C3%B3rio" aria-hidden="true"><span class="octicon octicon-link"></span></a><strong>Repository (Repositório)</strong>
+</h2>
+
+<h3>
+<a id="como-funciona-2" class="anchor" href="#como-funciona-2" aria-hidden="true"><span class="octicon octicon-link"></span></a><strong>Como funciona</strong>
+</h3>
+
+<p>Um repositório realiza a medição entre as camadas mapeadoras de dados e as camadas de domínio, agindo como uma coleção de objeto.Esses objetos criam especifiações de consultas e submetem ao repositório.
+Ele é uma junção de de outros padrões, eles se parece com um pequeno banco de dados orientado a objetos.</p>
+
+<h3>
+<a id="quando-usar-2" class="anchor" href="#quando-usar-2" aria-hidden="true"><span class="octicon octicon-link"></span></a><strong>Quando usar</strong>
+</h3>
+
+<h3>
+<a id="exemplo-2" class="anchor" href="#exemplo-2" aria-hidden="true"><span class="octicon octicon-link"></span></a><strong>Exemplo</strong>
+</h3>
+
+<hr>
+        </section>
+
+        <aside id="sidebar">
+          <a href="https://github.com/victorlbernardes/LES/zipball/master" class="button">
+            <small>Download</small>
+            .zip file
+          </a>
+          <a href="https://github.com/victorlbernardes/LES/tarball/master" class="button">
+            <small>Download</small>
+            .tar.gz file
+          </a>
+
+          <p class="repo-owner"><a href="https://github.com/victorlbernardes/LES"></a> is maintained by <a href="https://github.com/victorlbernardes">victorlbernardes</a>.</p>
+
+          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
+        </aside>
+      </div>
+    </div>
+
+  
+  </body>
+</html>
