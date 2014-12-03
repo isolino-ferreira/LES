@@ -109,12 +109,16 @@ Vantagens desse padrão: Manter esquemas de banco de dados encapsulados, suporta
 <a id="como-funciona-2" class="anchor" href="#como-funciona-2" aria-hidden="true"><span class="octicon octicon-link"></span></a><strong>Como funciona</strong>
 </h3>
 
-<p>Um repositório realiza a medição entre as camadas mapeadoras de dados e as camadas de domínio, agindo como uma coleção de objeto.Esses objetos criam especifiações de consultas e submetem ao repositório.
-Ele é uma junção de de outros padrões, eles se parece com um pequeno banco de dados orientado a objetos.</p>
+<p>Ele é uma junção de de outros padrões, eles se parece com um pequeno banco de dados orientado a objetos.
+Existe um  objeto repositório que “simula” um banco de dados. Assim aplicação cliente não acesso a fonte de dados real, que pode ser um simples banco de dados relacional ou um fluxo XML, ou ainda a combinação de muitos bancos,no entanto ela acessa ao repositório através de métodos que recebem como parametros critérios usados para procurar objetos específicos que pertenção ao repositório. Podemos dizer que o repositório é uma grande coleção de dados e permite ao cliente procurar por objetos e não se preocupar com SQL.
+Para encontrar um objeto o cliente deve especificar os critérios de busca, tendo feito isso acontece a busca no repositório usando as informações que foram passadas, para então retornar uma lista de objetos ou um objeto do domínio que possa representar as informações que foram solicitadas.
+O código de um repositório se parece com uma coleção de objetos do domínio em memória. O repositório combina o Mapeamento em metadados com objeto de pesquisa, para gerar automaticamente o codigo SQL a partir dos critérios que foram passados. Sua utilização pode melhorar a legibilidade e a clareza em um código que faz uso extensivo de consultas.</p>
 
 <h3>
 <a id="quando-usar-2" class="anchor" href="#quando-usar-2" aria-hidden="true"><span class="octicon octicon-link"></span></a><strong>Quando usar</strong>
 </h3>
+
+<p>Em sistemas grandes com muitos tipos de objetos de domínio e muitas pesquisas possíveis esse padrão reduz a quantidade o código necessário. Promove o padrão Especificação, que encapsula a consulta a ser realizada de uma forma puramente orientada a objeto.</p>
 
 <h3>
 <a id="exemplo-2" class="anchor" href="#exemplo-2" aria-hidden="true"><span class="octicon octicon-link"></span></a><strong>Exemplo</strong>
