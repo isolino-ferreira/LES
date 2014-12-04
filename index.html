@@ -83,7 +83,7 @@ O mapeamento em metadados pode interferir na refatoração,  mas por outro lado 
 </h3>
 
 <p>Um objeto de pesquisa é um interpretador, pode-se criar a consulta fazendo referência a classes e a campos em vez de tabelas e colunas.
-É uma aplicação do padrçao Interpretador desinado a representar uma consulta SQL. Suas principais tarefas são permitir ao cliente formular consultas e transformar estruturas em objetos na string SQL.
+É uma aplicação do padrão Interpretador destinado a representar uma consulta SQL. Suas principais tarefas são permitir ao cliente formular consultas e transformar estruturas em objetos na string SQL.
 Uma caracteristica comum do objeto de pesquisa é que ele pode representar consultas na linguagem dos objetos na memória em vez da linguagem do esquema do banco de dados(usar nomes de objetos e campos em vez de usar nomes de tabelas e colunas). Para efetuar essa mudança o objeto de pesquisa precisa saber como está a estrutura do banco de dados, essa é uma habilidade que precisa de do Mapeamento de Metadados.
 Um uso do Objeto de pesquisa é para eliminar pesquisas redundantes sobre um banco. Se a consulta já foi vista basta consultar os objetos do Mapa de identidade, evitando assim uma ida ao banco de dados, outra abordagem é para detectar consultas que são casos particulares de outras.
 Uma variação consistem em permitir que uma consulta seja especificada por um exemplo de objeto de domínio. Assim poderia ter um objeto com apenas um campo preenchido, o restante seria nulo.</p>
@@ -98,6 +98,128 @@ Vantagens desse padrão: Manter esquemas de banco de dados encapsulados, suporta
 <h3>
 <a id="exemplo-1" class="anchor" href="#exemplo-1" aria-hidden="true"><span class="octicon octicon-link"></span></a><strong>Exemplo</strong>
 </h3>
+
+<p>O exemplo são usando uma simulação de um banco de dados em forma de lista
+Está é a classe onde guardará os meus critérios de consulta
+<code>public class Criterios {</code>
+    <code>private String nome;</code>
+    <code>private String sobrenome;</code></p>
+
+<pre><code>`public String getNome() {`
+    `return nome;`
+`}`
+
+`public void setNome(String nome) {`
+    `this.nome = nome;`
+`}`
+
+`public String getSobrenome() {`
+    `return sobrenome;`
+`}`
+
+`public void setSobrenome(String sobrenome) {`
+    `this.sobrenome = sobrenome;`
+`}`
+</code></pre>
+
+<p><code>}</code></p>
+
+<p>Aqui está a classe responsavel pelas consultas</p>
+
+<p><code>public class ObjetoPesquisa {</code>
+    <code>ArrayList&lt;Criterios&gt; elementos = new ArrayList&lt;&gt;();</code></p>
+
+<pre><code>`public void salvarDados(Criterios criterios){`
+    `elementos.add(criterios);`
+    `System.out.println("**************DADOS SALVOS************");`
+
+
+`}`
+
+`public void apagarDados(Criterios criterios){`
+    `int index = 0;`
+    `for (int i = 0; i &lt; elementos.size(); i++) {`
+        `if(elementos.get(i).getNome().equals(criterios.getNome())){`
+            `index=i;`
+        `}`
+    `}`
+    `elementos.remove(index);`
+
+
+`}`
+
+`void selecionarDados(Criterios criterios) {`
+    `for (Criterios elemento : elementos) {`
+        `if(elemento.getNome().equals(criterios.getNome())){`
+            `System.out.println("**************DADO ENCONTRADO************");`
+            `System.out.println("Nome: "+ elemento.getNome());`
+            `System.out.println("Sobrenome: "+ elemento.getSobrenome());`
+            `System.out.println("**************DADO ENCONTRADO************");`
+        `}`
+    `}`
+`}`
+
+`void atualizarrDados(Criterios criterios) {`
+    `for (Criterios elemento : elementos) {`
+        `if(elemento.getNome().equals(criterios.getNome())){`
+            `System.out.println("**************DADO ATUALIZADO************");`
+            `elemento.setNome("NovoNome");`
+            `elemento.setSobrenome("NovoSobrenome");`
+        `}`
+    `}`
+`}`
+
+`void imprime(){`
+    `System.out.println("**************LISTA************");`
+    `for (Criterios imprime : elementos){`
+        `System.out.println("Nome: "+ imprime.getNome());`
+        `System.out.println("Sobrenome: "+ imprime.getSobrenome());`
+    `}`
+    `System.out.println("**************LISTA************");`
+
+`}`
+</code></pre>
+
+<p><code>}</code></p>
+
+<p>Abaixo temos a main</p>
+
+<p><code>public static void main(String[] args) {</code></p>
+
+<pre><code>    `ObjetoPesquisa objetoPesquisa = new ObjetoPesquisa();`
+    `//Insert`
+    `Criterios meusCriterios = new Criterios();`
+    `meusCriterios.setNome("Marcelo");`
+    `meusCriterios.setSobrenome("Silva");`
+    `objetoPesquisa.salvarDados(meusCriterios);`
+    `meusCriterios = new Criterios();`
+    `meusCriterios.setNome("Pedro");`
+    `meusCriterios.setSobrenome("Silva");`
+    `objetoPesquisa.salvarDados(meusCriterios);`
+    `meusCriterios = new Criterios();`
+    `meusCriterios.setNome("José");`
+    `meusCriterios.setSobrenome("Carlos");`
+    `objetoPesquisa.salvarDados(meusCriterios);`
+    `objetoPesquisa.imprime();`
+    `//Select`
+    `meusCriterios = new Criterios();`
+    `meusCriterios.setNome("José");`
+    `objetoPesquisa.selecionarDados(meusCriterios);`
+    `objetoPesquisa.imprime();`
+    `//Delete`
+    `meusCriterios = new Criterios();`
+    `meusCriterios.setNome("Pedro");`
+    `meusCriterios.setSobrenome("Silva");`
+    `objetoPesquisa.apagarDados(meusCriterios);`
+    `objetoPesquisa.imprime();`
+    `//Update`
+    `meusCriterios = new Criterios();`
+    `meusCriterios.setNome("José");`
+    `meusCriterios.setSobrenome("Carlos");`
+    `objetoPesquisa.atualizarrDados(meusCriterios);`
+    `objetoPesquisa.imprime();`
+`}`
+</code></pre>
 
 <hr>
 
@@ -124,7 +246,8 @@ O código de um repositório se parece com uma coleção de objetos do domínio 
 <a id="exemplo-2" class="anchor" href="#exemplo-2" aria-hidden="true"><span class="octicon octicon-link"></span></a><strong>Exemplo</strong>
 </h3>
 
-<p>Está é a classe onde guardará os meus critérios de consulta
+<p>O exemplo são usando uma simulação de um banco de dados em forma de lista
+Está é a classe onde guardará os meus critérios de consulta
 <code>public class Criterios {</code>
     <code>private String nome;</code>
     <code>private String sobrenome;</code></p>
